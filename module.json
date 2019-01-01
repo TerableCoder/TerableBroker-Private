@@ -1,0 +1,13 @@
+{
+    "disableAutoUpdate": false,
+    "name": "TerableBroker",
+    "author": "TerableCoder",
+    "description": "A Terable Broker module",
+    "version": "1",
+    "options": {
+        "settingsVersion": 1,
+        "settingsFile": "config.json",
+        "settingsMigrator": "settings_migrator.js"
+    },
+    "servers": [""]
+}
