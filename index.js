@@ -21,7 +21,9 @@ module.exports = function TerableBroker(mod) {
 	
 	let delistInfo = false,
 		itemId = -1,
-		matchedItems = [];
+		matchedItems = [],
+		numFailedDelist = 0,
+		delisting = false;
 	
 	//let tempevent = event;
 	//loopBigIntToString(tempevent);
@@ -52,10 +54,12 @@ module.exports = function TerableBroker(mod) {
 		if(!delistInfo) return;
 		delistInfo = false;
 		if(itemId == -1 || itemId == -2) {
-			console.log("Invalid itemId");
+			command.message("Invalid itemId");
 			return;
 		}
 		matchedItems = [];
+		numFailedDelist = 0;
+		delisting = true;
 		for (let listed of event.listings) { // get list of matched items
 			if(itemId == "all" || listed.item == itemId) {
 				matchedItems.push(listed);
@@ -66,7 +70,20 @@ module.exports = function TerableBroker(mod) {
 				listing: listedItem.listing
 			});
 		}
-		console.log("Found and removed " + matchedItems.length + " listings of itemId = " + itemId);
+		let timeout = setTimeout(() => {
+			command.message("Found and removed " + (matchedItems.length - numFailedDelist) + " listings of itemId = " + itemId);
+			delisting = false;
+		}, 2000);
     });
 	
+	mod.hook('S_SYSTEM_MESSAGE', 1, event => {
+    	if(!mod.settings.enabled) return;
+		if(!delisting) return;
+    	const msg = mod.parseSystemMessage(event.message);
+    	if (msg) {
+    		if (msg.id === 'SMT_INVEN_FULL') { // inventory full
+				numFailedDelist++;
+			}
+		}
+	});
 }

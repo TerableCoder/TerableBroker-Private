@@ -3,6 +3,8 @@
 Made by TerableCoder
 
 ## Usage
+### `terab` 
+- Toggles module on or off
 ### `terab delist all` 
 - Delist all brokered items
 ### `terab delist (itemId)`
