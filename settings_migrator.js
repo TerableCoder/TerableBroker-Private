@@ -1,7 +1,9 @@
 const DefaultSettings = {
-	"enabled": true,
+        "enabled": true,
+		"deslitOldestItemsFirst": false,
+		"delay": 20
 };
-
+// idk if this works
 module.exports = function MigrateSettings(from_ver, to_ver, settings) {
     if (from_ver === undefined) {
         // Migrate legacy config file

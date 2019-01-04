@@ -1,6 +1,8 @@
 {
     "version": 1,
     "data": {
-        "enabled": true
+        "enabled": true,
+        "deslitOldestItemsFirst": false,
+        "delay": 20
     }
 }
