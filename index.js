@@ -27,7 +27,7 @@ module.exports = function TerableBroker(mod) {
 		numFailedDelist = 0,
 		delisting = false,
 		timeout = null,
-		numberOfOpenInventorySlots = 0,
+		//numberOfOpenInventorySlots = 0,
 		pageNumber = -1,
 		first = -1,
 		last = -1;
@@ -140,10 +140,10 @@ module.exports = function TerableBroker(mod) {
 			command.message("TerableBroker still delisting! Waiting 1 second before starting.");
 			timeToWait = 1000;
 		}
-		let numInvenSpotsLocal = numberOfOpenInventorySlots;
+		//let numInvenSpotsLocal = numberOfOpenInventorySlots;
 		setTimeout(() => {
 			let numItemsDelisted = 0;
-			if(numInvenSpotsLocal <= 0) command.message("Your inventory is full, delisting canceled...");
+			//if(numInvenSpotsLocal <= 0) command.message("Your inventory is full, delisting canceled...");
 			matchedItems = [];
 			numFailedDelist = 0;
 			delisting = true;
@@ -155,17 +155,17 @@ module.exports = function TerableBroker(mod) {
 					if(delistType==2)command.message(`You're trying to delist ending at ${last}, but only have ${numListings} brokerage listings! Delisting end set to ${numListings} instead.`);
 					last = numListings-1;
 					numLoops = numListings-first;
-				}
+				}/*
 				if(numInvenSpotsLocal < numLoops){ // prevent crashes caused by merging items while inventory full
 					command.message(`You are trying to delist ${numLoops} items, but only have ${numInvenSpotsLocal} inventory slots! Delisting ${numInvenSpotsLocal} items instead.`);
 					numLoops = numInvenSpotsLocal; // just repeat the command if you merged items and have enough inventory slots now
 					last = first+numLoops-1;
-				}
-			} else {
+				}*/
+			} else {/*
 				if(numInvenSpotsLocal < numLoops){ // prevent crashes caused by merging items while inventory full
 					command.message(`You are trying to delist ${itemId} items, but only have ${numInvenSpotsLocal} inventory slots! Delisting ${numInvenSpotsLocal} items instead.`);
 					numLoops = numInvenSpotsLocal; // just repeat the command if you merged items and have enough inventory slots now
-				}
+				}*/
 			}
 			
 			if(delistFromIndicies){
@@ -179,7 +179,7 @@ module.exports = function TerableBroker(mod) {
 				}
 			} else{ // delist specific item
 				for (let listed of event.listings){
-					if(matchedItems.length >= numInvenSpotsLocal) break; // inventory will be full
+					//if(matchedItems.length >= numInvenSpotsLocal) break; // inventory will be full
 					if(listed.item == itemId) matchedItems.push(listed); // get list of matched items
 				}
 			}
@@ -225,7 +225,7 @@ module.exports = function TerableBroker(mod) {
 	});
 	
 	mod.hook('S_INVEN', 16, event => { // stupid ass packet doesn't count inventory slots, have to wait for system inventory full packet
-		numberOfOpenInventorySlots = event.size - event.items.length;
+		//numberOfOpenInventorySlots = event.size - event.items.length;
 		//console.log(`S_INVEN ~ numberOfOpenInventorySlots = ${numberOfOpenInventorySlots} ~ event.size = ${event.size} ~ event.items.length = ${event.items.length}`);
 	});
 	
@@ -238,7 +238,7 @@ module.exports = function TerableBroker(mod) {
 		numFailedDelist = 0;
 		delisting = false;
 		timeout = null;
-		numberOfOpenInventorySlots = 0;
+		//numberOfOpenInventorySlots = 0;
 		pageNumber = -1;
 	});
 }
