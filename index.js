@@ -64,11 +64,11 @@ module.exports = function TerableBroker(mod) {
     	},
 		doil(){
 			if(!mod.settings.enabled) return; // so you can pretend that you don't use this module
-			toggleDeslitOldestItemsFirst();
+			toggledelistOldestItemsFirst();
 		},
 		old(){
 			if(!mod.settings.enabled) return;
-			toggleDeslitOldestItemsFirst();
+			toggledelistOldestItemsFirst();
 		},
     	delist(id) { // find the id with Item Id Finder, the command is finditem then hover over the item
 			if(!mod.settings.enabled) return;
@@ -110,9 +110,9 @@ module.exports = function TerableBroker(mod) {
 		mod.toServer('C_TRADE_BROKER_REGISTERED_ITEM_LIST', 1, { }); // get your broker listings
 	}
 	
-	function toggleDeslitOldestItemsFirst(){
-		mod.settings.deslitOldestItemsFirst = !mod.settings.deslitOldestItemsFirst;
-        command.message(`Delist Oldest Items First is now ${mod.settings.deslitOldestItemsFirst ? "enabled" : "disabled"}.`);
+	function toggledelistOldestItemsFirst(){
+		mod.settings.delistOldestItemsFirst = !mod.settings.delistOldestItemsFirst;
+        command.message(`Delist Oldest Items First is now ${mod.settings.delistOldestItemsFirst ? "enabled" : "disabled"}.`);
 	}
 	
 	function delistCommandHandler(id){
@@ -172,7 +172,7 @@ module.exports = function TerableBroker(mod) {
 				delistFromIndicies = false;
 				for (let i = first; i <= last; i++) matchedItems.push(event.listings[i]); // get items from start to and including end
 			} else if(itemId < 51) { // delist x items, items with ids below 51 are low level gear that I don't care about handling
-				if(!mod.settings.deslitOldestItemsFirst){ // delist newest listings first, aka backwards
+				if(!mod.settings.delistOldestItemsFirst){ // delist newest listings first, aka backwards
 					for (let i = numListings-1; i > numListings-1-numLoops; i--) matchedItems.push(event.listings[i]); // get numLoops items
 				} else{
 					for (let i = 0; i < numLoops; i++) matchedItems.push(event.listings[i]); // get numLoops items
@@ -199,9 +199,9 @@ module.exports = function TerableBroker(mod) {
 			}
 			timeout = setTimeout(() => {
 				if(delistType == 0){
-					command.message(`Removed ${matchedItems.length - numFailedDelist} broker listings.`);
+				command.message(`Removed ${matchedItems.length - numFailedDelist} broker listings.`);
 				} else if(delistType == 1){
-					command.message(`Removed ${matchedItems.length - numFailedDelist} broker listings of itemId = ${itemId}.`);
+					command.message(`Removed ${matchedItems.length - numFailedDelist} ${mod.settings.delistOldestItemsFirst ? "oldest" : "newest"} broker listings of itemId = ${itemId}.`);
 				} else if(delistType == 2){ 
 					if(!numFailedDelist){ command.message(`Removed from broker listing ${first+1} to and including ${last+1}`); }
 					else{ command.message(`Failed to delist ${numFailedDelist} items. Successfully delisted from ${first+1} to ${last+1-numFailedDelist}.`); }
@@ -225,7 +225,7 @@ module.exports = function TerableBroker(mod) {
 	});
 	
 	mod.hook('S_INVEN', 16, event => { // stupid ass packet doesn't count inventory slots, have to wait for system inventory full packet
-		//numberOfOpenInventorySlots = event.size - event.items.length;
+		numberOfOpenInventorySlots = event.size - event.items.length;
 		//console.log(`S_INVEN ~ numberOfOpenInventorySlots = ${numberOfOpenInventorySlots} ~ event.size = ${event.size} ~ event.items.length = ${event.items.length}`);
 	});
 	
