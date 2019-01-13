@@ -1,6 +1,6 @@
 const DefaultSettings = {
         "enabled": true,
-		"deslitOldestItemsFirst": false,
+		"delistOldestItemsFirst": false,
 		"delay": 20
 };
 // idk if this works
