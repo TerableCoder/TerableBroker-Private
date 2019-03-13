@@ -21,7 +21,6 @@ Made by TerableCoder
 ### `terab dli (linkedItem)`
 - Delist all of the brokered items that match linkedItem
 - You can link an item by pressing CTRL+LMB on the item
-- "terab dli <Feast>" delists all <Feast>'s from the broker
 ### `terab fromto (startNumber) (endNumber)`
 - Delist the items between and including the start and end numbers
 - "terab fromto 8 13" would delist listings 8 9 10 on page 1, and 11 12 13 on page 2
