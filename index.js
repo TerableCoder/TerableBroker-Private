@@ -20,8 +20,7 @@ module.exports = function TerableBroker(mod) {
 	}
 	
 	
-	//const NotCP = typeof global.TeraProxy === 'undefined'; //For niceName forced thing and broken settings auto-save For Caali's Proxy users.
-	//if (!NotCP) mod.saveSettings(); // for some reason settings still.... doesn't save properly on first run for caali's proxy so we have this here now as temp fix I guess. ­Ъци
+	// mod.saveSettings();
 	
 	var delistInfo = false,
 		delistFromIndicies = false,
@@ -81,6 +80,17 @@ module.exports = function TerableBroker(mod) {
 		dl(id) { // find the id with Item Id Finder, the command is finditem then hover over the item
 			if(!mod.settings.enabled) return;
 			delistCommandHandler(id);
+    	},
+		dli(id) { // find the id with Item Id Finder, the command is finditem then hover over the item
+			if(!mod.settings.enabled) return;
+			var regexId = /#(\d*)@/;
+			var theId = id.match(regexId);
+			if(theId){
+				//command.message('Delisting id: ' + theId[1]);
+				delistCommandHandler(theId[1]);
+			} else{
+				command.message('Error, not a chatLink. Please type "terab dli <Item>". Link the item with Ctrl+LMB.');
+			}
     	},
 		fromto(start, end){ // start and end are delist. "terab fromto 1 10" will delist the first page, aka the first 10 items
 			if(!mod.settings.enabled) return;
